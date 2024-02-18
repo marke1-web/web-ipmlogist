@@ -10,14 +10,12 @@ class CustomUserCreationForm(UserCreationForm):
     car_number = forms.CharField(max_length=20, required=True)
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=150, required=True)
-    username = forms.CharField(
-        max_length=150, required=True
-    )  # Добавление поля 'username'
+    username = forms.CharField(max_length=150, required=True)
 
     class Meta:
         model = User
         fields = (
-            'username',  # Добавление 'username' в список полей
+            'username',
             'first_name',
             'last_name',
             'email',
