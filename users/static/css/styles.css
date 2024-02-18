@@ -1,0 +1,61 @@
+.fade_in {
+    opacity: 0;
+    animation: fade-in 1s forwards;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica', cursive;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ececec;
+    padding: 10px;
+}
+
+.header-title h1 {
+    font-size: 21px;
+    color: #333;
+}
+
+.header-title a {
+    text-decoration: none;
+    color: black;
+    font-size: 21px;
+
+}
+
+.header-links {
+    display: flex;
+    gap: 10px;
+
+}
+
+.login-button {
+    padding: 10px 20px;
+    background-color: #2089da;
+    color: #fffefe;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.container {
+    background-color: #fff;
+    padding: 40px;
+    text-align: center;
+}

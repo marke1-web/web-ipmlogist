@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <head>
+    <title>Профиль</title>
+  </head>
+  <h1>Профиль:</h1>
+  <p>Имя: {{ request.user.first_name }}</p>
+  <p>Фамилия: {{ request.user.last_name }}</p>
+  <p>Почта: {{ request.user.email }}</p>
+  <p>Дата рождения: {{ request.user.birth_date }}</p>
+  <p>Пол: {{ request.user.gender }}</p>
+  <p>Номер телефона: {{ request.user.phone_number }}</p>
+  <p>Гос номер: {{ request.user.car_number }}</p>
+
+  
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+  </form>
+  <a href="/" class="login-button">Назад на главную</a>
+{% endblock %}
+
+
+
+
+
+
+
