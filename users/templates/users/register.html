@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+  <title>Регистрация</title>
+</head>
+  <h2>Регистрация</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p>
+      <label for="{{ form.first_name.id_for_label }}">Имя:</label><br>
+      {{ form.first_name }}
+    </p>
+    <p>
+      <label for="{{ form.last_name.id_for_label }}">Фамилия:</label><br>
+      {{ form.last_name }}
+    </p>
+    <p>
+      <label for="{{ form.username.id_for_label }}">Имя пользователя:</label><br>
+      {{ form.username }}
+    </p>
+    <p>
+      <label for="{{ form.email.id_for_label }}">Почта:</label><br>
+      {{ form.email }}
+    </p>
+    <p>
+      <label for="{{ form.phone_number.id_for_label }}">Номер телефона:</label><br>
+      {{ form.phone_number }}
+    </p>
+    <p>
+      <label for="{{ form.car_number.id_for_label }}">Номер машины:</label><br>
+      {{ form.car_number }}
+    </p>
+    <p>
+      <label for="{{ form.gender.id_for_label }}">Пол:</label><br>
+      {{ form.gender }}
+    </p>
+    <p>
+      Дата рождения<br>
+      <input type="date" id="{{ form.birth_date.id_for_label }}" name="{{ form.birth_date.html_name }}">
+    </p>
+    <p>
+      <label for="{{ form.password1.id_for_label }}">Пароль:</label><br>
+      {{ form.password1 }}
+    </p>
+    <p>
+      <label for="{{ form.password2.id_for_label }}">Подтверждение пароля:</label><br>
+      {{ form.password2 }}
+    </p>
+    <button class="login-button" type="submit">Подтвердить</button>
+  </form>
+{% endblock %}
