@@ -2,8 +2,8 @@
 <html>
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
-    {% comment %} <img src="{% static 'img/logo.png' %}"> не работает {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/logo.ico' %}" sizes="16x16">
 </head>
 <body>
     <header class="header">
@@ -19,7 +19,6 @@
             {% endif %}
         </div>
     </header>
-
     <main class="container">
         {% block content %}
         {% endblock %}
