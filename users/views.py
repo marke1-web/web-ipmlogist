@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserCreationForm
+from django.urls import reverse
+from django.contrib.auth.views import PasswordResetView
+from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -65,3 +68,34 @@ class LogoutView(View):
         if request.user.is_authenticated:
             logout(request)
         return redirect('home')
+
+
+class ResetPasswordView(PasswordResetView):
+    template_name = 'registration/password_reset_form.html'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('password_reset_done'))
+
+        return render(
+            request, 'registration/password_reset_form.html', {'form': form}
+        )
+
+
+class ResetPasswordSentView(TemplateView):
+    template_name = 'registration/reset_password_sent.html'
+
+
+class PasswordResetConfirmView(TemplateView):
+    template_name = 'registration/reset_password_confirm.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['uidb64'] = kwargs['uidb64']
+        context['token'] = kwargs['token']
+        return context
+
+
+class ResetPasswordCompleteView(TemplateView):
+    template_name = 'registration/reset_password_complete.html'
