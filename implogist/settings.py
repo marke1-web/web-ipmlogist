@@ -46,7 +46,7 @@ ROOT_URLCONF = 'implogist.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'users/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -60,9 +60,6 @@ TEMPLATES = [
 ]
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'users', 'static'),
-# ]
 
 WSGI_APPLICATION = 'implogist.wsgi.application'
 
@@ -126,10 +123,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'emails'
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = 'p4sswordhelp@yandex.ru'
 EMAIL_HOST_PASSWORD = 'tsgmlsrugxuhncfc'
