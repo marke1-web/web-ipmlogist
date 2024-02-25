@@ -5,6 +5,7 @@ from .views import (
     CustomPasswordResetDoneView,
     CustomPasswordResetConfirmView,
     CustomPasswordResetCompleteView,
+    ChangePasswordView,
 )
 
 urlpatterns = [
@@ -35,5 +36,10 @@ urlpatterns += [
         'reset_password_complete/',
         CustomPasswordResetCompleteView.as_view(),
         name='password_reset_complete',
+    ),
+    path(
+        'change-password/',
+        ChangePasswordView.as_view(),
+        name='change_password',
     ),
 ]
