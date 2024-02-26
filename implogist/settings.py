@@ -58,7 +58,7 @@ TEMPLATES = [
         },
     },
 ]
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 WSGI_APPLICATION = 'implogist.wsgi.application'
@@ -71,9 +71,9 @@ WSGI_APPLICATION = 'implogist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'egor_db',
-        'USER': 'dbegor',
-        'PASSWORD': 'password',
+        'NAME': 'mesrop_db',
+        'USER': 'Mesrop_user',
+        'PASSWORD': 'Hozate52.',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -117,21 +117,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'emails'
 
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# ---------------------------------------------------------------------------------
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = 'p4sswordhelp@yandex.ru'
-EMAIL_HOST_PASSWORD = 'tsgmlsrugxuhncfc'
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN = EMAIL_HOST_USER
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465  
+EMAIL_USE_SSL = True  
+EMAIL_HOST_USER = 'thesmartestgame@mail.ru'
+DEFAULT_FROM_EMAIL = 'thesmartestgame@mail.ru'
+EMAIL_HOST_PASSWORD = 'vUR5WrLMr6Bwfjm10dLz'

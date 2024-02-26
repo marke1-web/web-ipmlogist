@@ -5,6 +5,10 @@
   <title>Регистрация</title>
 </head>
   <h2>Регистрация</h2>
+  {% if error_message %}
+  <p>{{ error_message }}</p>
+  {% endif %}
+
   <form method="post">
     {% csrf_token %}
     <p>
@@ -14,10 +18,6 @@
     <p>
       <label for="{{ form.last_name.id_for_label }}">Фамилия:</label><br>
       {{ form.last_name }}
-    </p>
-    <p>
-      <label for="{{ form.username.id_for_label }}">Имя пользователя:</label><br>
-      {{ form.username }}
     </p>
     <p>
       <label for="{{ form.email.id_for_label }}">Почта:</label><br>
