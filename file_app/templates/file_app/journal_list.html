@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'journals'%}"> Назад</a>
+
+<h1>Журналы договоров</h1>
+{% for journal in journals %}
+    <a href="{% url 'journal-detail' journal.id %}"> {{journal}}  </a>
+    <br>
+    {% empty %}
+    <h3>Нет журналов</h3>
+{% endfor %}
+<br>
+<a href="{% url 'journal-type-create'%}">Создать журнал</a>
+
+{% endblock %}
+

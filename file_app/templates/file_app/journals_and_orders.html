@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Журналы и отчёты</title>
+</head>
+
+<body>
+<h1>Страница журналов/отчётов</h1>
+<hr>
+<h1>Журналы</h1>
+<a href="{% url 'journal-list' %}">Журналы договоров</a>
+<h1>Отчёты</h1>
+<h3>Создать отчёт</h3>
+</body>
+{% endblock %}
+</html>

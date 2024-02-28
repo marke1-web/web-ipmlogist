@@ -1,4 +1,7 @@
 from pathlib import Path
+from . import db_settings
+# пояснение к импорту db_settings -- это не какая-то либа, а просто файл в прожекте
+# в котором у меня записаны данные для бд, временное решение пока не делаем контейнеры
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    "file_app",
 ]
 
 MIDDLEWARE = [
@@ -74,11 +78,11 @@ WSGI_APPLICATION = 'implogist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'egor_db',
-        'USER': 'dbegor',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': db_settings.name,
+        'USER': db_settings.user,
+        'PASSWORD': db_settings.password,
+        'HOST': db_settings.host,
+        'PORT': db_settings.port,
     }
 }
 
@@ -116,6 +120,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
