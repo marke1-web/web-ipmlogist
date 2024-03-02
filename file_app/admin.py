@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JournalContractType, JournalContract
+from .models import DocumentContract
 # Register your models here.
-admin.site.register(JournalContractType)
-admin.site.register(JournalContract)
+
+admin.site.register(DocumentContract)
