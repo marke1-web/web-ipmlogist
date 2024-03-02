@@ -8,16 +8,20 @@ from django.contrib.auth.views import (
 )
 from django.views import View
 from .forms import CustomUserCreationForm
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from django.http import HttpResponse
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import SetPasswordForm
 from django.db.utils import IntegrityError
 from django.db import IntegrityError
-from users.models import User
+from django.contrib.auth.models import Group
+from users.models import User, Role
+
 
 class ProfileView(TemplateView):
 
@@ -50,16 +54,23 @@ class RegisterView(View):
             email = form.cleaned_data.get('email')
             if User.objects.filter(email=email).exists():
                 error_message = 'Такая почта уже зарегистрирована. Пожалуйста, используйте другую почту.'
-                return render(request, 'users/register.html', {'form': form, 'error_message': error_message})
+                return render(
+                    request,
+                    'users/register.html',
+                    {'form': form, 'error_message': error_message},
+                )
             try:
                 user = form.save()
                 login(request, user)
                 return redirect('home')
             except IntegrityError:
                 error_message = 'Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.'
-                return render(request, 'users/register.html', {'form': form, 'error_message': error_message})
+                return render(
+                    request,
+                    'users/register.html',
+                    {'form': form, 'error_message': error_message},
+                )
         return render(request, 'users/register.html', {'form': form})
-
 
 
 class LoginView(View):
@@ -125,3 +136,30 @@ class ChangePasswordView(LoginRequiredMixin, FormView):
     def form_invalid(self, form):
         messages.error(self.request, 'Пожалуйста, исправьте ошибку ниже.')
         return super().form_invalid(form)
+
+
+class GetUserByEmailView(View):
+
+    def get(self, request, *args, **kwargs):
+        email = kwargs.get('email')
+        try:
+            user = User.objects.get(email=email)
+            return HttpResponse(f'Найден пользователь: {user.username}')
+        except User.DoesNotExist:
+            return HttpResponse(
+                f'Пользователь с адресом электронной почты "{email}" не найден'
+            )
+
+
+class AdminView(UserPassesTestMixin, TemplateView):
+    template_name = 'users/admin_view.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['users'] = User.objects.all()
+        context['roles'] = Role.objects.all()
+        context['groups'] = Group.objects.all()
+        return context

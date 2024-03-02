@@ -47,6 +47,14 @@
       <label for="{{ form.password2.id_for_label }}">Подтверждение пароля:</label><br>
       {{ form.password2 }}
     </p>
+    <p>
+      <label for="{{ form.role.id_for_label }}">Роль:</label><br>
+      {{ form.role }}
+    </p>
+    <p>
+      <label for="{{ form.groups.id_for_label }}">Группа:</label><br>
+      {{ form.groups }}
+    </p>
     <button class="login-button" type="submit">Подтвердить</button>
   </form>
 {% endblock %}
