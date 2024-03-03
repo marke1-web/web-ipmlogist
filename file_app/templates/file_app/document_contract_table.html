@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{# tutorial/templates/tutorial/people.html #}
 {% load render_table from django_tables2 %}
 <head>
     <meta charset="UTF-8">
@@ -27,14 +26,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			{{ form.as_p }}
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-        <button type="button" class="btn btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-primary">Добавить</button>
       </div>
     </div>
   </div>

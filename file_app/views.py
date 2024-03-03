@@ -27,3 +27,4 @@ class DocumentContractTableView(SingleTableView):
         context = super(DocumentContractTableView, self).get_context_data(**kwargs)
         context["form"] = DocumentContractForm
         return context
+
