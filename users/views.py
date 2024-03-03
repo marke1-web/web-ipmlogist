@@ -21,6 +21,8 @@ from django.db.utils import IntegrityError
 from django.db import IntegrityError
 from django.contrib.auth.models import Group
 from users.models import User, Role
+from django.core.exceptions import ValidationError
+from .utils import validate_password
 
 
 class ProfileView(TemplateView):
@@ -59,18 +61,25 @@ class RegisterView(View):
                     'users/register.html',
                     {'form': form, 'error_message': error_message},
                 )
-            try:
-                user = form.save()
-                login(request, user)
-                return redirect('home')
-            except IntegrityError:
-                error_message = 'Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.'
+
+            if not validate_password(
+                form.cleaned_data.get('password1'),
+                form.cleaned_data.get('password2'),
+            ):
+                error_message = """Пароль должен содержать не менее 8 символов,
+                                одну заглавную букву, одну строчную букву, одну цифру и один символ."""
                 return render(
                     request,
                     'users/register.html',
                     {'form': form, 'error_message': error_message},
                 )
-        return render(request, 'users/register.html', {'form': form})
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            error_message = 'Пожалуйста, заполните форму корректно.'
+            context = {'form': form, 'error_message': error_message}
+            return render(request, 'users/register.html', context)
 
 
 class LoginView(View):

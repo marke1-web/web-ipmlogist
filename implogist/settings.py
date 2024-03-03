@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-
+from . import db_settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -65,15 +65,13 @@ WSGI_APPLICATION = 'implogist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'egor_db',
-        'USER': 'dbegor',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': db_settings.name,
+        'USER': db_settings.user,
+        'PASSWORD': db_settings.password,
+        'HOST': db_settings.host,
+        'PORT': db_settings.port,
     }
 }
-
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
