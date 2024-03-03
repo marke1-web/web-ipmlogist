@@ -1,16 +1,65 @@
+from django.contrib.auth.models import Group
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Role
 
 
 class CustomUserCreationForm(UserCreationForm):
-    birth_date = forms.DateField(required=False)
-    gender = forms.ChoiceField(choices=User.GENDER_CHOICES, required=False)
-    phone_number = forms.CharField(max_length=11, required=True)
-    car_number = forms.CharField(max_length=20, required=True)
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=150, required=True)
-    email = forms.EmailField(required=True)
+    birth_date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(
+            attrs={'class': 'form-control', 'placeholder': 'Дата рождения'}
+        ),
+    )
+    gender = forms.ChoiceField(
+        choices=User.GENDER_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    phone_number = forms.CharField(
+        max_length=11,
+        required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Номер телефона'}
+        ),
+    )
+    car_number = forms.CharField(
+        max_length=20,
+        required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Номер машины'}
+        ),
+    )
+    first_name = forms.CharField(
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Имя'}
+        ),
+    )
+    last_name = forms.CharField(
+        max_length=150,
+        required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Фамилия'}
+        ),
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(
+            attrs={'class': 'form-control', 'placeholder': 'Email'}
+        ),
+    )
+    role = forms.ModelChoiceField(
+        queryset=Role.objects.all(),
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    groups = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
 
     class Meta:
         model = User
@@ -24,11 +73,14 @@ class CustomUserCreationForm(UserCreationForm):
             'gender',
             'phone_number',
             'car_number',
+            'role',
+            'groups',
         )
 
     def save(self, commit=True):
         user = super(CustomUserCreationForm, self).save(commit=False)
-        user.username = self.cleaned_data['email']  # Устанавливаем username равным email
+        user.username = self.cleaned_data['email']
         if commit:
             user.save()
+            self.save_m2m()
         return user

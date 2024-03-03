@@ -1,10 +1,11 @@
 from django.core.exceptions import ValidationError
 import string
 
+
 def validate_password(password1, password2):
     """
-    Валидатор пароля, который проверяет, 
-    содержит ли пароль как минимум одну 
+    Валидатор пароля, который проверяет,
+    содержит ли пароль как минимум одну
     заглавную букву, одну строчную букву,
     одну цифру и один символ.
     """
@@ -27,12 +28,10 @@ def validate_password(password1, password2):
     # Проверка наличия символов
     if not any(char in string.punctuation for char in password1):
         return False
-    
+
     # Пароли совпадают или нет
     if password1 != password2:
         return False
 
     # Если все проверки пройдены, возвращаем True
     return True
-
-

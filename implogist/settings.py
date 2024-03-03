@@ -1,25 +1,20 @@
 from pathlib import Path
 import os
-from . import db_settings #перенял решение Артема
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from . import db_settings
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'users.User'
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = (
     'django-insecure-v&a1swt*jr^1qig$2*#e)f38uajn3bx$0#zz))+_9t@y9x8(vo'
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -58,14 +53,13 @@ TEMPLATES = [
         },
     },
 ]
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'users/static'),)#добавил в путь users, а то он папку ищет которой нет вообще
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'users/static'),
+]
 
 
 WSGI_APPLICATION = 'implogist.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
 DATABASES = {
@@ -78,11 +72,6 @@ DATABASES = {
         'PORT': db_settings.port,
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -108,14 +97,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
