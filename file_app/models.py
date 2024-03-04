@@ -44,7 +44,7 @@ class DocumentContract(models.Model):
         verbose_name="Форма заявок контрагента")  # Форма заявок контрагента
     additional_agreement = models.BooleanField(verbose_name="Есть дополнительное соглашение")  # есть доп соглашение
     rates_set_by_contract = models.BooleanField(verbose_name="Ставки установлены договором")
-    contract_scan = models.FileField(upload_to="contract_scan/%Y%m/", verbose_name="Скан договора")  # скан договора
+    contract_scan = models.FileField(upload_to="contract_scan/%Y%m/", blank=True, verbose_name="Скан договора")  # скан договора
 
     def __str__(self):  # название документа
         return f"Документ {self.contract_type} номер {self.number} от {self.date}"
