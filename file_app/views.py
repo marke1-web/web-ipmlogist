@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from .tables import DocumentContractTable
 from .models import DocumentContract
@@ -32,11 +32,20 @@ class DocumentCreate(LoginRequiredMixin, CreateView):
     fields = '__all__'
     success_url = reverse_lazy("document_table")
 
+
+class DocumentUpdate(LoginRequiredMixin, UpdateView):
+    template_name = "file_app/edit_document_contract.html"
+    model = DocumentContract
+    fields = '__all__'
+    success_url = reverse_lazy("document_table")
+
+
 '''
     def form_valid(self, form):
         #form.instance.user = self.request.user
         return super(DocumentCreate, self).form_valid(form)
 '''
+
 
 class JournalOrdersView(LoginRequiredMixin, View):
     """Страница со ссылками на документы"""
