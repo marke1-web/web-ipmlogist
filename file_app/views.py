@@ -29,8 +29,33 @@ def create_document_contract(request):
 class DocumentCreate(LoginRequiredMixin, CreateView):
     model = DocumentContract
     template_name = "file_app/create_document_contract.html"
-    fields = '__all__'
+    # fields = '__all__'
+    fields = ("date",
+              "number",
+              "customer",
+              "contractor",
+              "contract_type",
+              "currency",
+              "status",
+              "status_date",
+              "sbt",
+              "contract_start_date",
+              "contract_stop_date",
+              "tracking",
+              "printed_application_form",
+              "counterparty_agreement_form",
+              "counterparty_application_form",
+              "additional_agreement",
+              "rates_set_by_contract",
+              "contract_scan",
+              )
     success_url = reverse_lazy("document_table")
+    print(fields)
+
+    def form_valid(self, form):
+        #print(form.instance.user)
+        form.instance.user = self.request.user
+        return super(DocumentCreate, self).form_valid(form)
 
 
 class DocumentUpdate(LoginRequiredMixin, UpdateView):
@@ -42,7 +67,7 @@ class DocumentUpdate(LoginRequiredMixin, UpdateView):
 
 '''
     def form_valid(self, form):
-        #form.instance.user = self.request.user
+        form.instance.user = self.request.user
         return super(DocumentCreate, self).form_valid(form)
 '''
 

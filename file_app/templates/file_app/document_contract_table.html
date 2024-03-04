@@ -14,11 +14,11 @@
     <a href="{% url 'documents' %}">Назад</a>
     <h1>Журнал договоров</h1>
     <!-- Button trigger modal -->
-    <!--
+
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
   Добавить документ
 </button>
--->
+
     <a href="{% url 'document-create' %}">SOZDAT DOC</a>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -29,7 +29,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action=""
+        <form action="{% url 'document-create' %}"
               method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			{{ form.as_p }}
@@ -40,12 +40,13 @@
                 {% endfor %}
               </ul>
             {% endif %}
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" value="document-create"  class="btn btn-primary">Добавить</button>
+        </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-        <button type="submit" value="document-create"  class="btn btn-primary">Добавить</button>
-      </div>
+
     </div>
   </div>
 </div>
