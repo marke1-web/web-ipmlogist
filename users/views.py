@@ -7,6 +7,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 from django.views import View
+
 from .forms import CustomUserCreationForm
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import TemplateView
@@ -20,9 +21,11 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.db.utils import IntegrityError
 from django.db import IntegrityError
 from django.contrib.auth.models import Group
-from users.models import User, Role
+from users.models import User
+from .models import MyGroup
 from django.core.exceptions import ValidationError
 from .utils import validate_password
+from .models import Role
 
 
 class ProfileView(TemplateView):
@@ -42,11 +45,9 @@ class HomeView(TemplateView):
         return super().get(request)
 
 
-class RegisterView(View):
+class CreateUserView(View):
 
     def get(self, request):
-        if request.user.is_authenticated:
-            return redirect('home')
         form = CustomUserCreationForm()
         return render(request, 'users/register.html', {'form': form})
 
@@ -73,9 +74,11 @@ class RegisterView(View):
                     'users/register.html',
                     {'form': form, 'error_message': error_message},
                 )
-            user = form.save()
-            login(request, user)
-            return redirect('home')
+            form.save()
+            return render(
+                request,
+                'users/home.html',
+            )
         else:
             error_message = 'Пожалуйста, заполните форму корректно.'
             context = {'form': form, 'error_message': error_message}
@@ -164,11 +167,38 @@ class AdminView(UserPassesTestMixin, TemplateView):
     template_name = 'users/admin_view.html'
 
     def test_func(self):
-        return self.request.user.is_superuser
+        user = self.request.user
+        return user.is_superuser or user.role.name in [
+            "Главный админ",
+            "Менеджер",
+        ]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['users'] = User.objects.all()
-        context['roles'] = Role.objects.all()
         context['groups'] = Group.objects.all()
         return context
+
+
+class AdminPanelView(View):
+    def get(self, request):
+        users = User.objects.all()
+        roles = Role.objects.all()
+        groups = MyGroup.objects.all()
+        return render(
+            request,
+            'users/admin_panel.html',
+            {'users': users, 'roles': roles, 'groups': groups},
+        )
+
+    def post(self, request):
+        user_id = request.POST.get('user')
+        role_id = request.POST.get('role')
+        group_ids = request.POST.getlist('groups')
+
+        user = User.objects.get(id=user_id)
+        user.role = Role.objects.get(id=role_id)
+        user.groups.set(MyGroup.objects.filter(id__in=group_ids))
+        user.save()
+
+        return redirect('home')

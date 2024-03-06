@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+  <title>Изменение сотрудника</title>
+</head>
+<h2>Изменение сотрудника</h2>
+{% if success_message %}
+<p>{{ success_message }}</p>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <p>
+    <label for="user">Выберите пользователя:</label><br>
+    <select name="user" id="user">
+      {% for user in users %}
+        <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label for="role">Выберите роль:</label><br>
+    <select name="role" id="role">
+      {% for role in roles %}
+        <option value="{{ role.id }}">{{ role.name }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label for="groups">Выберите группы:</label><br>
+    {% for group in groups %}
+      <input type="checkbox" id="group{{ group.id }}" name="groups" value="{{ group.id }}">
+      <label for="group{{ group.id }}">{{ group.name }}</label><br>
+    {% endfor %}
+</p>
+  <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

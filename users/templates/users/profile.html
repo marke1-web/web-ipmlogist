@@ -5,37 +5,30 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
   <head>
     <title>Профиль</title>
-  </head>
-  <h1>Профиль:</h1>
-  <p>Имя: {{ request.user.first_name }}</p>
-  <p>Фамилия: {{ request.user.last_name }}</p>
-  <p>Почта: {{ request.user.email }}</p>
-  <p>Дата рождения: {{ request.user.birth_date }}</p>
-  <p>Пол: {{ request.user.gender }}</p>
-  <p>Номер телефона: {{ request.user.phone_number }}</p>
-  <p>Гос номер: {{ request.user.car_number }}</p>
-  <p>Роль:
-    {% if request.user.roles.all %}
-      {% for role in request.user.roles.all %}
-        {{ role.name }}{% if not forloop.last %}, {% endif %}
-      {% endfor %}
-    {% else %}
-      Нет роли
-    {% endif %}
-  </p>
-  <p>Группы:
-    {% if request.user.groups.all %}
-      {% for group in request.user.groups.all %}
-        {{ group.name }}{% if not forloop.last %}, {% endif %}
-      {% endfor %}
-    {% else %}
-      Нет групп
-    {% endif %}
-  </p>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-  </form>
-  <a href="/" class="login-button">На главную</a>
-  <a href="{% url 'change_password' %}" class="login-button">Смена пароля</a>
+</head>
+<h1>Профиль:</h1>
+<p>Имя: {{ request.user.first_name }}</p>
+<p>Фамилия: {{ request.user.last_name }}</p>
+<p>Почта: {{ request.user.email }}</p>
+<p>Дата рождения: {{ request.user.birth_date }}</p>
+<p>Пол: {{ request.user.gender }}</p>
+<p>Номер телефона: {{ request.user.phone_number }}</p>
+<p>Роль:
+  {% if request.user.role %}
+    {{ request.user.role.name }}
+  {% else %}
+    Нет роли
+  {% endif %}
+</p>
+<p>Группы:
+  {% if request.user.groups.all %}
+    {% for group in request.user.groups.all %}
+      {{ group.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  {% else %}
+    Нет групп
+  {% endif %}
+</p>
+<a href="/" class="login-button">На главную</a>
+<a href="{% url 'change_password' %}" class="login-button">Смена пароля</a>
 {% endblock %}

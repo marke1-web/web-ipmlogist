@@ -16,11 +16,8 @@
             <div class="header-links">
                 {% if user.is_authenticated %}
                     <a href="/profile" class="login-button">Профиль</a>
-                    {% if user.is_superuser %}
-                        <a href="admin_view" class="login-button">Просмотр пользователей</a>
-                    {% endif %}
+                    <a href="/logout" class="login-button">Выход</a>
                 {% else %}
-                    <a href="/register" class="login-button">Регистрация</a>
                     <a href="/login" class="login-button">Вход</a>
                 {% endif %}
             </div>
@@ -29,11 +26,16 @@
     <div class="container">
         {% if user.is_authenticated %}
             {% if user.is_superuser %}
-                <h1>Привет, администратор {{ user.username }}!</h1>
+                <h1>Привет, администратор  Django {{ user.username }}!</h1>
                 <!-- Здесь можете добавить контент для администратора -->
-            {% else %}
-                <h1>Привет, {{ user.username }}!</h1>
-                <!-- Здесь можете добавить контент для обычного пользователя -->
+            {% elif user.role.name == "Главный админ" %}
+                <h1>Привет, Главный админ {{ user.username }}!</h1>
+            {% elif user.role.name == "Сотрудник" %}
+                <h1>Привет, сотрудник {{ user.username }}!</h1>
+                <!-- Здесь можете добавить контент для сотрудника -->
+            {% elif user.role.name == "Менеджер" %}
+                <h1>Привет, менеджер {{ user.username }}!</h1>
+                <!-- Здесь можете добавить контент для менеджера -->
             {% endif %}
         {% endif %}
     </div>
