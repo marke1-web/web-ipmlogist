@@ -3,60 +3,63 @@
 {% block content %}
    {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-  <style>
+ <style>
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
     }
+
     th, td {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
+
     th {
-      background-color: #f2f2f2;
+        background-color: #f2f2f2;
     }
+
     tr:nth-child(even) {
-      background-color: #f2f2f2;
+        background-color: #f2f2f2;
     }
-  </style>
-  <head>
+</style>
+<head>
     <title>Админ-просмотр</title>
-  </head>
-  <h1>Админ-просмотр:</h1>
-  <table>
+</head>
+<h1>Пользователи</h1>
+<table>
     <thead>
-      <tr>
-        <th>Имя</th>
+    <tr>
+        <th>Имя и Фамилия</th>
+        <th>Почта</th>
         <th>Роль</th>
         <th>Группы</th>
-      </tr>
+    </tr>
     </thead>
     <tbody>
-      {% for user in users %}
-      <tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.get_full_name }}</td>
         <td>{{ user.username }}</td>
         <td>
-          {% if user.roles.all %}
-            {% for role in user.roles.all %}
-              {{ role.name }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-          {% else %}
-            Нет роли
-          {% endif %}
+            {% if user.role %}
+                {{ user.role.name }}
+            {% else %}
+                Нет роли
+            {% endif %}
         </td>
         <td>
-          {% if user.groups.all %}
-            {% for group in user.groups.all %}
-              {{ group.name }}{% if not forloop.last %}, {% endif %}
-            {% endfor %}
-          {% else %}
-            Нет групп
-          {% endif %}
+            {% if user.groups.all %}
+                {% for group in user.groups.all %}
+                    {{ group.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            {% else %}
+                Нет групп
+            {% endif %}
         </td>
-      </tr>
-      {% endfor %}
+    </tr>
+    {% endfor %}
     </tbody>
-  </table>
+</table>
 {% endblock %}

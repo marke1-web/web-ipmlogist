@@ -6,7 +6,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'users.User'
 
-
 SECRET_KEY = (
     'django-insecure-v&a1swt*jr^1qig$2*#e)f38uajn3bx$0#zz))+_9t@y9x8(vo'
 )
@@ -24,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'roles',
 ]
 
 MIDDLEWARE = [

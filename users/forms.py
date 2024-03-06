@@ -1,7 +1,6 @@
-from django.contrib.auth.models import Group
+from .models import User, MyGroup
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Role
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -21,13 +20,6 @@ class CustomUserCreationForm(UserCreationForm):
         required=True,
         widget=forms.TextInput(
             attrs={'class': 'form-control', 'placeholder': 'Номер телефона'}
-        ),
-    )
-    car_number = forms.CharField(
-        max_length=20,
-        required=True,
-        widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Номер машины'}
         ),
     )
     first_name = forms.CharField(
@@ -50,13 +42,9 @@ class CustomUserCreationForm(UserCreationForm):
             attrs={'class': 'form-control', 'placeholder': 'Email'}
         ),
     )
-    role = forms.ModelChoiceField(
-        queryset=Role.objects.all(),
-        required=True,
-        widget=forms.Select(attrs={'class': 'form-control'}),
-    )
+
     groups = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.all(),
+        queryset=MyGroup.objects.all(),  # Используйте вашу модель MyGroup
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
@@ -72,7 +60,6 @@ class CustomUserCreationForm(UserCreationForm):
             'birth_date',
             'gender',
             'phone_number',
-            'car_number',
             'role',
             'groups',
         )

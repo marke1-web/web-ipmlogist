@@ -2,9 +2,9 @@
 
 {% block content %}
 <head>
-  <title>Регистрация</title>
+  <title>Создание сотрудника</title>
 </head>
-  <h2>Регистрация</h2>
+  <h2>Создание сотрудника</h2>
 {% if error_message %}
 <p>{{ error_message }}</p>
 {% endif %}
@@ -26,10 +26,6 @@
     <p>
       <label for="{{ form.phone_number.id_for_label }}">Номер телефона:</label><br>
       {{ form.phone_number }}
-    </p>
-    <p>
-      <label for="{{ form.car_number.id_for_label }}">Номер машины:</label><br>
-      {{ form.car_number }}
     </p>
     <p>
       <label for="{{ form.gender.id_for_label }}">Пол:</label><br>
@@ -55,6 +51,6 @@
       <label for="{{ form.groups.id_for_label }}">Группа:</label><br>
       {{ form.groups }}
     </p>
-    <button class="login-button" type="submit">Подтвердить</button>
+    <button class="login-button" type="submit">Создать</button>
   </form>
 {% endblock %}
