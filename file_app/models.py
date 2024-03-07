@@ -35,9 +35,10 @@ class DocumentContract(models.Model):
     sbt = models.BooleanField(verbose_name="Принят по Sbt")  # принят по sbt
     contract_start_date = models.DateField(verbose_name="Дата начала договора")  # дата начала договора
     contract_stop_date = models.DateField(verbose_name="Дата конца договора")  # дата конца договора
-    tracking = models.CharField(max_length=32, verbose_name="Отслеживание")  # отслеживание
+    tracking = models.CharField(max_length=32, verbose_name="Отслеживание", blank=True)  # отслеживание
     printed_application_form = models.CharField(max_length=64,
-                                                verbose_name="Печатная форма заявки")  # печатная форма заявки
+                                                verbose_name="Печатная форма заявки",
+                                                blank=True)  # печатная форма заявки
     counterparty_agreement_form = models.BooleanField(
         verbose_name="Форма договора контрагента")  # Форма договора контрагента
     counterparty_application_form = models.BooleanField(
