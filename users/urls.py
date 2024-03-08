@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AdminPanelView
+from .views import ChangeUserView
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
@@ -8,8 +8,8 @@ urlpatterns = [
     path('create-user/', views.CreateUserView.as_view(), name='create_user'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('show-table/', views.AdminView.as_view(), name='show_table'),
-    path('change-user/', AdminPanelView.as_view(), name='change_user'),
+    path('show-table/', views.TableView.as_view(), name='show_table'),
+    path('change-user/', ChangeUserView.as_view(), name='change_user'),
     path(
         'reset_password/',
         views.CustomPasswordResetView.as_view(),
