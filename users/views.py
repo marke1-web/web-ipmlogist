@@ -163,7 +163,7 @@ class GetUserByEmailView(View):
             )
 
 
-class AdminView(UserPassesTestMixin, TemplateView):
+class TableView(UserPassesTestMixin, TemplateView):
     template_name = 'users/show_table.html'
 
     def test_func(self):
@@ -180,7 +180,7 @@ class AdminView(UserPassesTestMixin, TemplateView):
         return context
 
 
-class AdminPanelView(View):
+class ChangeUserView(View):
     def get(self, request):
         users = User.objects.all()
         roles = Role.objects.all()
