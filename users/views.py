@@ -49,7 +49,7 @@ class CreateUserView(View):
 
     def get(self, request):
         form = CustomUserCreationForm()
-        return render(request, 'users/register.html', {'form': form})
+        return render(request, 'users/create_user.html', {'form': form})
 
     def post(self, request):
         form = CustomUserCreationForm(request.POST)
@@ -59,7 +59,7 @@ class CreateUserView(View):
                 error_message = 'Такая почта уже зарегистрирована. Пожалуйста, используйте другую почту.'
                 return render(
                     request,
-                    'users/register.html',
+                    'users/create_user.html',
                     {'form': form, 'error_message': error_message},
                 )
 
@@ -71,7 +71,7 @@ class CreateUserView(View):
                                 одну заглавную букву, одну строчную букву, одну цифру и один символ."""
                 return render(
                     request,
-                    'users/register.html',
+                    'users/create_user.html',
                     {'form': form, 'error_message': error_message},
                 )
             form.save()
@@ -82,7 +82,7 @@ class CreateUserView(View):
         else:
             error_message = 'Пожалуйста, заполните форму корректно.'
             context = {'form': form, 'error_message': error_message}
-            return render(request, 'users/register.html', context)
+            return render(request, 'users/create_user.html', context)
 
 
 class LoginView(View):
@@ -164,7 +164,7 @@ class GetUserByEmailView(View):
 
 
 class AdminView(UserPassesTestMixin, TemplateView):
-    template_name = 'users/admin_view.html'
+    template_name = 'users/show_table.html'
 
     def test_func(self):
         user = self.request.user
@@ -187,7 +187,7 @@ class AdminPanelView(View):
         groups = MyGroup.objects.all()
         return render(
             request,
-            'users/admin_panel.html',
+            'users/change_user.html',
             {'users': users, 'roles': roles, 'groups': groups},
         )
 

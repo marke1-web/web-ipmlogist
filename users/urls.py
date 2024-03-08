@@ -8,8 +8,8 @@ urlpatterns = [
     path('create-user/', views.CreateUserView.as_view(), name='create_user'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('admin_view/', views.AdminView.as_view(), name='admin_view'),
-    path('admin-panel/', AdminPanelView.as_view(), name='admin_panel'),
+    path('show-table/', views.AdminView.as_view(), name='show_table'),
+    path('change-user/', AdminPanelView.as_view(), name='change_user'),
     path(
         'reset_password/',
         views.CustomPasswordResetView.as_view(),
