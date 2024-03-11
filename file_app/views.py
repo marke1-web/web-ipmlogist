@@ -49,9 +49,9 @@ class DocumentCreate(LoginRequiredMixin, CreateView):
               "additional_agreement",
               "rates_set_by_contract",
               "contract_scan",
+              "note",
               )
     success_url = reverse_lazy("document_table")
-    print(fields)
 
     def form_valid(self, form):  # валидация формы
         form.instance.user = self.request.user  # автоматическое присвоение создавшего юзера
@@ -80,6 +80,7 @@ class DocumentUpdate(LoginRequiredMixin, UpdateView):
               "additional_agreement",
               "rates_set_by_contract",
               "contract_scan",
+              "note",
               )
     success_url = reverse_lazy("document_table")
 
@@ -107,5 +108,4 @@ class DocumentContractTableView(SingleTableView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super(DocumentContractTableView, self).get_context_data(**kwargs)
         context["form"] = DocumentContractForm
-        context['edit_form'] = DocumentContractForm(instance=DocumentContract.objects.get(id=3))
         return context
