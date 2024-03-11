@@ -96,4 +96,4 @@ class DocumentContract(models.Model):
         return f"Документ {self.contract_type} номер {self.number} от {self.date}"
 
     class Meta:
-        ordering = ["date"]
+        ordering = ["date"]  # сортировка
