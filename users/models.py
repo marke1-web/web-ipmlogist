@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from roles.models import MyGroup, Role  # Импортируем модель Role
 
 
 class User(AbstractUser):
@@ -15,7 +16,12 @@ class User(AbstractUser):
         max_length=1, choices=GENDER_CHOICES, null=True, blank=True
     )
     phone_number = models.CharField(max_length=11)
-    car_number = models.CharField(max_length=20)
+    role = models.ForeignKey(
+        Role,  # Используем модель Role здесь
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    groups = models.ManyToManyField(MyGroup, blank=True, related_name='users')
 
     def __str__(self):
-        return self.username
+        return f'{self.username} - {self.role}'
