@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Документы</title>
+</head>
+
+<body>
+<a class="login-button" href="">Компании, заказчики, исполнители</a>
+<h1>Документы</h1>
+<hr>
+<h1>Журналы</h1>
+<a class="login-button" href="{% url 'document_table' %}">Журналы договоров</a>
+<h1>Отчёты</h1>
+<h3>Создать отчёт</h3>
+</body>
+{% endblock %}
+</html>
