@@ -1,5 +1,5 @@
-name = "db_name"
+name = "web_ipmlogist"
 user = "root"
-password = "dbpass"
+password = "mysqlmSKQUENmy31!"
 host = "localhost"
 port = "3306"

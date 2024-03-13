@@ -12,19 +12,6 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
-'''
-def create_document_contract(request):
-    if request.method == "POST":
-        form = DocumentContractForm(request.POST or None)
-        print(form)
-        if form.is_valid():
-            doc = form.save()
-            context = {"document": doc}
-            return render(request, "file_app/create_document_contract.html", context)
-    return render(request, "file_app/create_document_contract.html", {"form": DocumentContractForm()})
-
-'''
-
 
 class DocumentCreate(LoginRequiredMixin, CreateView):
     """Вью с формой создания документа"""

@@ -2,42 +2,23 @@ from django.db import models
 from users.models import User
 
 
-class CustomerCompany(models.Model):
-    """Модель для компаний заказчиков и контрагентов"""
-    company_name = models.CharField(unique=True, blank=False, max_length=256, verbose_name="Название компании")
+class Company(models.Model):
+    """Модель для компаний исполнителей, заказчиков и контрагентов"""
+    company_name = models.CharField(unique=True, blank=False, max_length=255, verbose_name="Название компании")
     tax_identification_number = models.IntegerField(unique=True, blank=False, verbose_name="ИНН")
     is_counterparty = models.BooleanField(default=False, blank=False, verbose_name="Является контрагентом")
+    is_contractor = models.BooleanField(default=False, blank=False, verbose_name="Является исполнителем")
 
     def __str__(self):  # название документа
         return self.company_name
 
 
-class Customer(models.Model):
-    """Модель для заказчика или контрагента"""
+class Employee(models.Model):
+    """Модель для сотрудников компаний"""
     full_name = models.CharField(blank=False, max_length=256, verbose_name="ФИО")
     phone = models.CharField(blank=False, max_length=16, verbose_name="Номер телефона")
     work_position = models.CharField(blank=False, max_length=128, verbose_name="Должность")
-    company_id = models.ForeignKey(CustomerCompany, on_delete=models.CASCADE, verbose_name="ID компании")
-
-    def __str__(self):  # название документа
-        return self.full_name
-
-
-class ContractorCompany(models.Model):
-    """Модель для компаний исполнителя"""
-    company_name = models.CharField(unique=True, blank=False, max_length=256, verbose_name="Название компании")
-    tax_identification_number = models.IntegerField(unique=True, blank=False, verbose_name="ИНН")
-
-    def __str__(self):  # название документа
-        return self.company_name
-
-
-class Contractor(models.Model):
-    """Модель для исполнителя"""
-    full_name = models.CharField(blank=False, max_length=256, verbose_name="ФИО")
-    phone = models.CharField(blank=False, max_length=16, verbose_name="Номер телефона")
-    work_position = models.CharField(blank=False, max_length=128, verbose_name="Должность")
-    company_id = models.ForeignKey(ContractorCompany, on_delete=models.CASCADE, verbose_name="ID компании")
+    company_id = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="ID компании")
 
     def __str__(self):  # название документа
         return self.full_name
@@ -66,10 +47,11 @@ class DocumentContract(models.Model):
     date = models.DateField(verbose_name="Дата договора")  # дата договора
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Создавший пользователь")
     number = models.CharField(max_length=256, unique=True, verbose_name="Номер договора")  # номер
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE,
-                                 verbose_name="Заказчик")  # заказчик - будет внешний ключ
-    contractor = models.ForeignKey(Contractor, on_delete=models.CASCADE,
-                                   verbose_name="Исполнитель")  # исполнитель - будет внешний ключ
+    customer = models.ForeignKey(Employee, on_delete=models.CASCADE,
+                                 verbose_name="Заказчик", related_name='customer')  # заказчик - будет внешний ключ
+    contractor = models.ForeignKey(Employee, on_delete=models.CASCADE,
+                                   verbose_name="Исполнитель",
+                                   related_name='contractor')  # исполнитель - будет внешний ключ
     contract_type = models.CharField(max_length=256, choices=ContractType.choices,
                                      verbose_name="Вид договора")  # вид договора
     currency = models.CharField(max_length=32, choices=Currency.choices, verbose_name="Валюта")  # валюта
