@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% load django_tables2 %}
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Заказчики, контрагенты, исполнители</title>
+</head>
+<body>
+<a class="login-button" href="{% url 'documents' %}">Назад к документам</a>
+<h1>Список</h1>
+<br>
+<div align="center">
+    <h1>Заказчики</h1>
+    <a class="login-button" href="{% url 'create_company' 'customer'%}">Создать заказчика</a>
+    <br><br><hr>
+    {% render_table tables.0 %}
+    <hr>
+    <h1>Контрагенты</h1>
+    <a class="login-button" href="{% url 'create_company' 'counterparty'%}">Создать контрагента</a>
+    <br><br><hr>
+    {% render_table tables.1 %}
+    <hr>
+    <h1>Исполнители</h1>
+    <a class="login-button" href="{% url 'create_company' 'contractor'%}">Создать исполнителя</a>
+    <br><br><hr>
+    {% render_table tables.2 %}
+</div>
+</body>
+{% endblock %}
+</html>

@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import inspect
 from . import db_settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'roles',
+    'file_app',
+    'django_tables2',
+    'django_htmx',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -34,6 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'implogist.urls'
@@ -90,7 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -122,6 +128,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
-from django.db import connection
 
-print(connection.queries)

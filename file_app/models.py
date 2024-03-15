@@ -12,6 +12,9 @@ class Company(models.Model):
     def __str__(self):  # название документа
         return self.company_name
 
+    class Meta:
+        verbose_name = "Компания"  # человеческое название модели
+
 
 class Employee(models.Model):
     """Модель для сотрудников компаний"""
@@ -22,6 +25,9 @@ class Employee(models.Model):
 
     def __str__(self):  # название документа
         return self.full_name
+
+    class Meta:
+        verbose_name = "Сотрудник"  # человеческое название модели
 
 
 class DocumentContract(models.Model):
@@ -57,25 +63,27 @@ class DocumentContract(models.Model):
     currency = models.CharField(max_length=32, choices=Currency.choices, verbose_name="Валюта")  # валюта
     status = models.CharField(max_length=64, choices=Status.choices, verbose_name="Статус")  # статус
     status_date = models.DateField(verbose_name="Дата статуса")  # дата статуса
-    sbt = models.BooleanField(verbose_name="Принят по Sbt")  # принят по sbt
+    sbt = models.BooleanField(default=False, verbose_name="Принят по Sbt")  # принят по sbt
     contract_start_date = models.DateField(verbose_name="Дата начала договора")  # дата начала договора
     contract_stop_date = models.DateField(verbose_name="Дата конца договора")  # дата конца договора
     tracking = models.CharField(max_length=32, verbose_name="Отслеживание", blank=True)  # отслеживание
     printed_application_form = models.CharField(max_length=64,
                                                 verbose_name="Печатная форма заявки",
                                                 blank=True)  # печатная форма заявки
-    counterparty_agreement_form = models.BooleanField(
-        verbose_name="Форма договора контрагента")  # Форма договора контрагента
-    counterparty_application_form = models.BooleanField(
-        verbose_name="Форма заявок контрагента")  # Форма заявок контрагента
-    additional_agreement = models.BooleanField(verbose_name="Есть дополнительное соглашение")  # есть доп соглашение
-    rates_set_by_contract = models.BooleanField(verbose_name="Ставки установлены договором")
+    counterparty_agreement_form = models.BooleanField(default=False,
+                                                      verbose_name="Форма договора контрагента")  # Форма договора контрагента
+    counterparty_application_form = models.BooleanField(default=False,
+                                                        verbose_name="Форма заявок контрагента")  # Форма заявок контрагента
+    additional_agreement = models.BooleanField(default=False,
+                                               verbose_name="Есть дополнительное соглашение")  # есть доп соглашение
+    rates_set_by_contract = models.BooleanField(default=False, verbose_name="Ставки установлены договором")
     contract_scan = models.FileField(upload_to="contract_scan/%Y%m/", blank=True, verbose_name="Скан договора")
     # скан договора
-    note = models.TextField(verbose_name="Примечание", blank=True, default="")  # примечание к документу
+    note = models.TextField(verbose_name="Примечание", blank=True)  # примечание к документу
 
     def __str__(self):  # название документа
         return f"Документ {self.contract_type} номер {self.number} от {self.date}"
 
     class Meta:
+        verbose_name = "Документ договора"  # человеческое название модели
         ordering = ["date"]  # сортировка

@@ -8,7 +8,7 @@ __pycache__/
 # C extensions
 *.so
 
-db_settings.py
+./implogist/db_settings.py
 # Distribution / packaging
 .Python
 build/
