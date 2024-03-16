@@ -15,12 +15,11 @@
     <h1 align="Center">Журнал договоров</h1>
     <!-- Button trigger modal -->
 
-{% if 'Продажники' in user_groups %}
+{% if can_add_document %}
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Добавить документ
     </button>
 {% endif %}
-
 
     <!--<a href="{% url 'document-create' %}">SOZDAT DOC</a> -->
 <!-- Modal -->

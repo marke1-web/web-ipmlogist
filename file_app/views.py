@@ -107,5 +107,5 @@ class DocumentContractTableView(SingleTableView):
         context = super().get_context_data(**kwargs)
         user_groups = self.request.user.groups.values_list('name', flat=True)
         context["form"] = DocumentContractForm
-        context["user_groups"] = user_groups
+        context["can_add_document"] = 'Продажники' in user_groups
         return context
