@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Детали компании</title>
+</head>
+<body>
+<a class="login-button" href="{% url 'companies'%}">Назад к компаниям</a>
+<h1>Детали компании</h1>
+<h3>Название: {{company.company_name}}</h3>
+<h3>ИНН: {{company.tax_identification_number}}</h3>
+<hr>
+<h1>Сотрудники:</h1>
+<a class="login-button" href="{% url 'create_employee' company.id%}">Добавить сотрудника</a>
+<div align="left">
+<ul>
+    {% for employee in employees %}
+    <li>{{ employee.full_name }}</li>
+    {% endfor %}
+</ul>
+</div>
+</body>
+{% endblock %}
+</html>

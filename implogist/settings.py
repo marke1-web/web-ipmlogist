@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 from . import db_settings
-from django.db import connection
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,6 +27,7 @@ INSTALLED_APPS = [
     "file_app",
     "django_tables2",
     "django_htmx",
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -126,4 +126,3 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
 
-print(connection.queries)

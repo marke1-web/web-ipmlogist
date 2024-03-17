@@ -4,6 +4,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link rel="icon" type="image/png" href="{% static 'img/logo.ico' %}" sizes="16x16">
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
 </head>
 <body>
     <header class="header">
@@ -30,7 +31,7 @@
         {% block content %}
         {% endblock %}
     </main>
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <!--<script src="{% static 'js/scripts.js' %}"></script>-->
 </body>
 </html>
 

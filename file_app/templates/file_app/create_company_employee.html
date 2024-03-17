@@ -4,15 +4,13 @@
 {% block content %}
 <head>
     <meta charset="UTF-8">
-    <title>Создать документ</title>
+    <title>Создать</title>
 </head>
 <body>
-<a href="{% url 'document_table' %}">Назад</a>
-<h1>Создать документ</h1>
-<form method="POST" action="" enctype="multipart/form-data">
+<a class="login-button" href="{% url 'companies'%}">Назад к компаниям</a>
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-
     {% if form.errors %}
     <ul>
         {% for error in form.errors %}
@@ -20,10 +18,9 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <button type="submit" class="btn btn-primary">
-    Добавить документ
-</button>
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button class="login-button" type="submit">Создать</button>
 </form>
-{% endblock %}
 </body>
+{% endblock %}
 </html>
