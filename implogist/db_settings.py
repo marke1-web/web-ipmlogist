@@ -1,5 +1,5 @@
-name = "egor_db"
-user = "dbegor"
-password = "password"
+name = "web_ipmlogist"
+user = "root"
+password = "mysqlmSKQUENmy31!"
 host = "localhost"
 port = "3306"
