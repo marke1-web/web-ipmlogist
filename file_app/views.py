@@ -19,11 +19,14 @@ def load_companies(request):
     contract_type = request.GET.get("contract_type")
     print("Вид договора:", contract_type)
     is_counterparty = None
+    is_contractor = None
     if contract_type == "С заказчиком":
         is_counterparty = False
+        is_contractor = False
     elif contract_type == "С контрагентом":
         is_counterparty = True
-    companies = Company.objects.filter(is_counterparty=is_counterparty)
+        is_contractor = False
+    companies = Company.objects.filter(is_counterparty=is_counterparty, is_contractor=is_contractor)
     context = {"companies": companies}
     return render(request, "file_app/company_options.html", context)
 
