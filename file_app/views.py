@@ -126,6 +126,14 @@ class CompaniesView(LoginRequiredMixin, MultiTableMixin, TemplateView):
         CompanyTable(Company.objects.filter(is_counterparty=False, is_contractor=True)),
     ]
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['tables'] = [
+            CompanyTable(Company.objects.filter(is_counterparty=False, is_contractor=False)),
+            CompanyTable(Company.objects.filter(is_counterparty=True, is_contractor=False)),
+            CompanyTable(Company.objects.filter(is_counterparty=False, is_contractor=True)),
+        ]
+        return context
 
 
 class CreateCompany(LoginRequiredMixin, View):
