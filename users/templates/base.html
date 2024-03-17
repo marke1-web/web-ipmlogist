@@ -14,7 +14,6 @@
         <div class="header-links">
             {% if user.is_authenticated %}
                 <a class="login-button" href="/logout/">Выход</a>
-                <a href="/documents/" class="login-button">Документы</a>
                 {% if user.role.name == "Главный админ" or user.role.name == "Менеджер" or user.is_superuser %}
                     <a href="/create-user" class="login-button">Создание сотрудника</a>
                     <a href="/change-user" class="login-button">Изменение сотрудника</a>
