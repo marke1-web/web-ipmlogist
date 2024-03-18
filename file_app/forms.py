@@ -47,18 +47,34 @@ class DocumentContractForm(forms.ModelForm):
             "contract_stop_date": DatePicker(format='%Y-%m-%d'),
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # Исполняется при вызове формы
         super().__init__(*args, **kwargs)
 
         if "contractor" in self.data:
+            # обработка поля contractor
             contractor_id = self.data.get("contractor")
-            print("contractor_id:", contractor_id)
             self.fields["contractor"].queryset = Employee.objects.filter(id=contractor_id)
 
         if "company" in self.data:
+            # обработка поля company
             company_id = self.data.get("company")
-            print("company_id:", company_id)
             self.fields["company"].queryset = Company.objects.filter(id=company_id)
+
+        if kwargs['instance']:
+            # Настройка начальных значений
+            document = kwargs['instance']
+            customer_id = document.customer.id
+            company_id = document.customer.company_id.id
+            contractor_id = document.contractor.id
+            contractor_company_id = document.contractor.company_id.id
+            is_counterparty = document.contract_type == DocumentContract.ContractType.WITH_COUNTERPARTY
+            self.fields['company'].queryset = Company.objects.filter(is_counterparty=is_counterparty, is_contractor=False)
+            self.fields['company'].initial = company_id
+            self.fields['customer'].queryset = Employee.objects.filter(company_id=company_id)
+            self.fields['customer'].initial = customer_id
+            self.fields['contractor_company'].initial = contractor_company_id
+            self.fields['contractor'].queryset = Employee.objects.filter(company_id=contractor_company_id)
+            self.fields['contractor'].initial = contractor_id
 
 
 class CompanyForm(forms.ModelForm):

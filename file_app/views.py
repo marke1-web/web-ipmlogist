@@ -70,15 +70,6 @@ class DocumentUpdate(LoginRequiredMixin, UpdateView):
     model = DocumentContract
     success_url = reverse_lazy("document_table")
 
-    def get_initial(self):
-        document_id = self.kwargs["pk"]
-        current_document = DocumentContract.objects.get(id=document_id)
-        initial_values = super().get_initial()
-        initial_values['company'] = current_document.customer.company_id
-        initial_values['contractor'] = current_document.contractor
-        initial_values['contractor_company'] = current_document.contractor.company_id
-        return initial_values
-
     def get_form_class(self):
         user = self.request.user
         if user.groups.filter(name='Сб').exists():
