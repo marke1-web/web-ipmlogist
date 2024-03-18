@@ -3,7 +3,6 @@ from django import forms
 from .models import DocumentContract, Company, Employee
 
 
-
 class SBTDocumentUpdateForm(forms.ModelForm):
     class Meta:
         model = DocumentContract
@@ -42,15 +41,14 @@ class DocumentContractForm(forms.ModelForm):
         exclude = ["user", "sbt"]  # какие поля исключить
         widgets = {
             "contract_type": forms.Select(attrs={"hx-get": "./load_companies/", "hx-target": "#id_company"}),
-            "date": DatePicker(),
-            "status_date": DatePicker(),
-            "contract_start_date": DatePicker(),
-            "contract_stop_date": DatePicker(),
+            "date": DatePicker(format='%Y-%m-%d'),
+            "status_date": DatePicker(format='%Y-%m-%d'),
+            "contract_start_date": DatePicker(format='%Y-%m-%d'),
+            "contract_stop_date": DatePicker(format='%Y-%m-%d'),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print(self.data)
 
         if "contractor" in self.data:
             contractor_id = self.data.get("contractor")
@@ -62,9 +60,14 @@ class DocumentContractForm(forms.ModelForm):
             print("company_id:", company_id)
             self.fields["company"].queryset = Company.objects.filter(id=company_id)
 
-        if "contractor_company" in self.data:
-            pass
-
+        """
+        print("init:", self.initial)
+        if "initial" in kwargs:
+            if "company" in kwargs['initial']:
+                print("initial in kwargs comapny in initial")
+                self.initial['company'] = kwargs['initial']['company']
+                print(self.initial['company'])
+        """
 
 class CompanyForm(forms.ModelForm):
     """Форма компании"""

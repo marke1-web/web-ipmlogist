@@ -13,5 +13,7 @@ urlpatterns = [
     path('document-create/', views.DocumentCreate.as_view(), name='document-create'),
     path('document-update/<int:pk>', views.DocumentUpdate.as_view(), name='document-update'),
     path("document-create/load_companies/", views.load_companies, name="load_companies"),
-    path("document-create/load_employees/", views.load_employees, name="load_employees")
+    path("document-create/load_employees/", views.load_employees, name="load_employees"),
+    path("document-update/load_companies/", views.load_companies, name="load_companies"),
+    path("document-update/load_employees/", views.load_employees, name="load_employees")
 ]
