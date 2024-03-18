@@ -145,7 +145,7 @@ class CreateEmployee(LoginRequiredMixin, View):
     """Страница создания компании или сотрудника"""
 
     @staticmethod
-    def get(self, request, company_id):
+    def get(request, company_id):
         form = EmployeeForm
         context = {"company_id": company_id, "form": form}
         return render(request, "file_app/create_company_employee.html", context)
