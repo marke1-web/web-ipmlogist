@@ -68,27 +68,6 @@ class DocumentUpdate(LoginRequiredMixin, UpdateView):
     form_class = DocumentContractForm
 
     model = DocumentContract
-    '''
-    fields = (
-        "date",
-        "number",
-        "customer",
-        "contractor",
-        "contract_type",
-        "currency",
-        "status",
-        "status_date",
-        "contract_start_date",
-        "contract_stop_date",
-        "tracking",
-        "printed_application_form",
-        "counterparty_agreement_form",
-        "counterparty_application_form",
-        "additional_agreement",
-        "rates_set_by_contract",
-        "contract_scan",
-        "note",
-    )'''
     success_url = reverse_lazy("document_table")
 
     def get_initial(self):

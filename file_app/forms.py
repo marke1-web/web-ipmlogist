@@ -60,14 +60,6 @@ class DocumentContractForm(forms.ModelForm):
             print("company_id:", company_id)
             self.fields["company"].queryset = Company.objects.filter(id=company_id)
 
-        """
-        print("init:", self.initial)
-        if "initial" in kwargs:
-            if "company" in kwargs['initial']:
-                print("initial in kwargs comapny in initial")
-                self.initial['company'] = kwargs['initial']['company']
-                print(self.initial['company'])
-        """
 
 class CompanyForm(forms.ModelForm):
     """Форма компании"""
