@@ -26,6 +26,7 @@ from .models import MyGroup
 from django.core.exceptions import ValidationError
 from .utils import validate_password
 from .models import Role
+from django.db.models import Q
 
 
 class ProfileView(TemplateView):
@@ -182,7 +183,10 @@ class TableView(UserPassesTestMixin, TemplateView):
 
 class ChangeUserView(View):
     def get(self, request):
-        users = User.objects.all()
+        if request.user.role.name == "Менеджер":
+            users = User.objects.filter(~Q(role="Главный админ"))
+        elif request.user.role.name == "Главный админ":
+            users = User.objects.all()
         roles = Role.objects.all()
         groups = MyGroup.objects.all()
         return render(

@@ -24,4 +24,4 @@ class User(AbstractUser):
     groups = models.ManyToManyField(MyGroup, blank=True, related_name='users')
 
     def __str__(self):
-        return f'{self.username} - {self.role}'
+        return f'{self.first_name} {self.last_name} - {self.role}'

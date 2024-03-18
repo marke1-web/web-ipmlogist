@@ -68,12 +68,8 @@ WSGI_APPLICATION = 'implogist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': db_settings.name,
-        'USER': db_settings.user,
-        'PASSWORD': db_settings.password,
-        'HOST': db_settings.host,
-        'PORT': db_settings.port,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
