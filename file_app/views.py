@@ -65,28 +65,19 @@ class DocumentUpdate(LoginRequiredMixin, UpdateView):
     """Вью обновления (изменения) существующего документа"""
 
     template_name = "file_app/edit_document_contract.html"
+    form_class = DocumentContractForm
+
     model = DocumentContract
-    fields = (
-        "date",
-        "number",
-        "customer",
-        "contractor",
-        "contract_type",
-        "currency",
-        "status",
-        "status_date",
-        "contract_start_date",
-        "contract_stop_date",
-        "tracking",
-        "printed_application_form",
-        "counterparty_agreement_form",
-        "counterparty_application_form",
-        "additional_agreement",
-        "rates_set_by_contract",
-        "contract_scan",
-        "note",
-    )
     success_url = reverse_lazy("document_table")
+
+    def get_initial(self):
+        document_id = self.kwargs["pk"]
+        current_document = DocumentContract.objects.get(id=document_id)
+        initial_values = super().get_initial()
+        initial_values['company'] = current_document.customer.company_id
+        initial_values['contractor'] = current_document.contractor
+        initial_values['contractor_company'] = current_document.contractor.company_id
+        return initial_values
 
     def get_form_class(self):
         user = self.request.user
@@ -162,6 +153,7 @@ class CreateCompany(LoginRequiredMixin, View):
 class CreateEmployee(LoginRequiredMixin, View):
     """Страница создания компании или сотрудника"""
 
+    @staticmethod
     def get(self, request, company_id):
         form = EmployeeForm
         context = {"company_id": company_id, "form": form}
