@@ -182,9 +182,25 @@ class TableView(UserPassesTestMixin, TemplateView):
 
 class ChangeUserView(View):
     def get(self, request):
-        users = User.objects.all()
-        roles = Role.objects.all()
-        groups = MyGroup.objects.all()
+        if request.user.is_superuser:
+            users = User.objects.exclude(is_superuser=True)
+            roles = Role.objects.all()
+            groups = MyGroup.objects.all()
+        elif request.user.role.name == 'Главный админ':
+            users = User.objects.filter(
+                role__name__in=['Сотрудник', 'Менеджер'], is_superuser=False
+            )
+            roles = Role.objects.filter(name__in=['Сотрудник', 'Менеджер'])
+            groups = MyGroup.objects.all()
+        elif request.user.role.name == 'Менеджер':
+            users = User.objects.filter(role__name='Сотрудник')
+            roles = Role.objects.filter(name='Сотрудник')
+            groups = MyGroup.objects.all()
+        else:
+            users = User.objects.none()
+            roles = Role.objects.none()
+            groups = MyGroup.objects.none()
+
         return render(
             request,
             'users/change_user.html',
@@ -193,11 +209,13 @@ class ChangeUserView(View):
 
     def post(self, request):
         user_id = request.POST.get('user')
-        role_id = request.POST.get('role')
         group_ids = request.POST.getlist('groups')
-
         user = User.objects.get(id=user_id)
-        user.role = Role.objects.get(id=role_id)
+
+        if request.user.is_superuser:
+            role_id = request.POST.get('role')
+            user.role = Role.objects.get(id=role_id)
+
         user.groups.set(MyGroup.objects.filter(id__in=group_ids))
         user.save()
 
