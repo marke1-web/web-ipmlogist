@@ -15,6 +15,13 @@ class DocumentContractTable(tables.Table):
         args=[A("pk")],
         orderable=False,
     )
+    history = tables.LinkColumn(
+        "document-history", 
+        verbose_name="",
+        text="🕵️", 
+        args=[A("pk")], 
+        orderable=False)
+
 
     class Meta:
         model = DocumentContract
@@ -38,6 +45,7 @@ class DocumentContractTable(tables.Table):
             "status",
             "note",
             "edit",
+            # "history"
         )  # изменение порядка столбцов
 
 

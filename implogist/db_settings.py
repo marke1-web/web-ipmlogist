@@ -1,5 +1,5 @@
-name = "web_ipmlogist"
-user = "root"
-password = "mysqlmSKQUENmy31!"
+name = "mesrop"
+user = "mesrop"
+password = "Hozate52."
 host = "localhost"
 port = "3306"

@@ -6,13 +6,14 @@ from django.views.generic import CreateView, UpdateView, TemplateView, View
 from django.contrib import messages
 
 from .tables import DocumentContractTable, CompanyTable, EmployeeTable
-from .models import DocumentContract, Company, Employee
+from .models import DocumentContract, Company, Employee, DocumentChangeLog
 from .forms import DocumentContractForm, CompanyForm, EmployeeForm, SBTDocumentUpdateForm
 
 from django_tables2 import SingleTableView, MultiTableMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
+from django.views.generic import DetailView
 
 def load_companies(request):
     """Для динамического заполнения выборов компаний в форме"""
@@ -44,6 +45,18 @@ def load_employees(request):
     return render(request, "file_app/employee_options.html", context)
 
 
+class DocumentChangeLogView(DetailView):
+    template_name = "file_app/document_history.html"
+    model = DocumentContract
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        document_id = self.kwargs['pk']
+        document = DocumentContract.objects.get(id=document_id)
+        context['document'] = document
+        context['change_logs'] = document.documentchangelog_set.all()
+        return context
+
 class DocumentCreate(LoginRequiredMixin, CreateView):
     """Вью с формой создания документа"""
     form_class = DocumentContractForm
@@ -51,10 +64,22 @@ class DocumentCreate(LoginRequiredMixin, CreateView):
 
     success_url = reverse_lazy("document_table")
 
-    def form_valid(self, form):  # валидация формы
-        form.instance.user = self.request.user  # автоматическое присвоение создавшего юзера
+    def form_valid(self, form): # валидация формы
+        form.instance.user = self.request.user
+        instance = form.save()
+        for field_name in form.changed_data: # функция отвечает за добавление логов в базу
+            new_value = form.cleaned_data[field_name]
+            field_verbose_name = form.fields[field_name].label # беру значение verbose_name из моделей
+            DocumentChangeLog.objects.create(
+                document=instance,
+                user=self.request.user,
+                action="Создание",
+                field=field_verbose_name,
+                new_value=new_value,
+            )
         messages.success(self.request, "Документ успешно создан.")
         return super(DocumentCreate, self).form_valid(form)
+        # return super().form_valid(form)
 
     def form_invalid(self, form):
         print(form.instance, sep="\n")
@@ -75,6 +100,26 @@ class DocumentUpdate(LoginRequiredMixin, UpdateView):
         if user.groups.filter(name='Сб').exists():
             return SBTDocumentUpdateForm
         return super().get_form_class()
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user # функция отвечает за добавление логов в базу
+        if form.instance.pk:
+            original_instance = form.instance.__class__.objects.get(pk=form.instance.pk)
+        instance = form.save()
+        for field_name in form.changed_data:
+            field_verbose_name = form.fields[field_name].label # беру значение verbose_name из моделей
+            old_value = getattr(original_instance, field_name, None) if form.instance.pk else None
+            new_value = form.cleaned_data[field_name] 
+            DocumentChangeLog.objects.create(
+                document=instance,
+                user=self.request.user,
+                action="Редактирование",
+                field=field_verbose_name,
+                old_value=old_value,
+                new_value=new_value,
+            )
+            print(new_value, old_value, field_name, self.request.user)
+        return super().form_valid(form)
 
 
 class DocumentsMainView(LoginRequiredMixin, TemplateView):

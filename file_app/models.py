@@ -87,3 +87,12 @@ class DocumentContract(models.Model):
     class Meta:
         verbose_name = "Документ договора"  # человеческое название модели
         ordering = ["date"]  # сортировка
+
+class DocumentChangeLog(models.Model):
+    document = models.ForeignKey(DocumentContract, on_delete=models.CASCADE, verbose_name="Документ")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    action = models.CharField(max_length=16, choices=[("CREATE", "Создание"), ("UPDATE", "Редактирование")], verbose_name="Действие")
+    field = models.CharField(max_length=256, verbose_name="Поле")
+    old_value = models.TextField(blank=True, verbose_name="Старое значение")
+    new_value = models.TextField(blank=True, verbose_name="Новое значение")
+    timestamp = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время")

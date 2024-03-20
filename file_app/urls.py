@@ -15,5 +15,6 @@ urlpatterns = [
     path("document-create/load_companies/", views.load_companies, name="load_companies"),
     path("document-create/load_employees/", views.load_employees, name="load_employees"),
     path("document-update/load_companies/", views.load_companies, name="load_companies"),
-    path("document-update/load_employees/", views.load_employees, name="load_employees")
+    path("document-update/load_employees/", views.load_employees, name="load_employees"),
+    path('document-history/<int:pk>', views.DocumentChangeLogView.as_view(), name='document-history'),
 ]
