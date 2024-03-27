@@ -1,5 +1,5 @@
-name = "egor_db"
-user = "dbegor"
-password = "password"
+name = "mesrop"
+user = "mesrop"
+password = "Hozate52."
 host = "localhost"
 port = "3306"

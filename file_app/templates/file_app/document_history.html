@@ -1,0 +1,66 @@
+{% block content %}
+<style>
+  /* Стили для логирования !!!потом перенесу в static!!!*/
+  .log-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .log-table {
+    border-collapse: collapse;
+    width: 70%; 
+    font-family: Arial, sans-serif;
+  }
+
+  .log-th, .log-td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  .log-th {
+    background-color: #f2f2f2;
+  }
+
+  .log-tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .log-tr:hover {
+    background-color: #00aeff;
+  }
+  
+</style>
+<div style="position: absolute;">
+  <a href="/document-table">Назад</a>
+</div>
+<div class="log-container">
+  <table id="history-table" class="log-table">
+    <thead>
+      <tr>
+        <th class="log-th">Дата и время</th>
+        <th class="log-th">Действие</th>
+        <th class="log-th">Пользователь</th>
+        <th class="log-th">Название поля</th>
+        <th class="log-th">До изменения</th>
+        <th class="log-th">После изменения</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for history in document.documentchangelog_set.all %}
+        <tr class="log-tr">
+          <td class="log-td">{{ history.timestamp }}</td>
+          <td class="log-td">{{ history.action }}</td>
+          <td class="log-td">{{ history.user.username }}</td>
+          <td class="log-td">{{ history.field }}</td>
+          <td class="log-td">{{ history.old_value }}</td>
+          <td class="log-td">{{ history.new_value }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}

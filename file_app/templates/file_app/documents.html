@@ -9,7 +9,9 @@
 </head>
 
 <body>
-<a class="login-button" href="">Компании, заказчики, исполнители</a>
+{% if can_add_company_employee %}
+<a class="login-button" href="{% url 'companies' %}">Заказчики, контрагенты, исполнители</a>
+{% endif %}
 <h1>Документы</h1>
 <hr>
 <h1>Журналы</h1>

@@ -1,0 +1,6 @@
+{% load static %}
+<script src="{% static 'js/htmx.min.js' %}" defer></script>
+<option></option>
+{% for company in companies %}
+<option value="{{ company.id }}">{{company}}</option>
+{% endfor %}

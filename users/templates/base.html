@@ -4,6 +4,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link rel="icon" type="image/png" href="{% static 'img/logo.ico' %}" sizes="16x16">
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
 </head>
 <body>
     <header class="header">
@@ -13,7 +14,6 @@
         <div class="header-links">
             {% if user.is_authenticated %}
                 <a class="login-button" href="/logout/">Выход</a>
-                <a href="/documents/" class="login-button">Документы</a>
                 {% if user.role.name == "Главный админ" or user.role.name == "Менеджер" or user.is_superuser %}
                     <a href="/create-user" class="login-button">Создание сотрудника</a>
                     <a href="/change-user" class="login-button">Изменение сотрудника</a>
@@ -30,7 +30,7 @@
         {% block content %}
         {% endblock %}
     </main>
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <!--<script src="{% static 'js/scripts.js' %}"></script>-->
 </body>
 </html>
 
