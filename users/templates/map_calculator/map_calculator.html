@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск маршрута</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=2a36827c-2c8f-435c-88be-d5ac7507a6ea&lang=ru_RU" type="text/javascript"></script>
+    <style>
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label, input, button {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input, button {
+    width: 50%; /* Изменено на 80% */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#map {
+    width: 50%; /* Изменено на 80% */
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <h2>Поиск маршрута</h2>
+    <label for="startPoint">Точка отправления:</label>
+    <input type="text" id="startPoint">
+    <br>
+    <label for="endPoint">Точка назначения:</label>
+    <input type="text" id="endPoint">
+    <br>
+    <button onclick="findRoute()">Найти маршрут</button>
+    <div id="routeInfo"></div>
+    <div id="map"></div> <!-- Контейнер для карты -->
+
+<script>
+    var myMap; // Объявляем переменную myMap за пределами функции findRoute
+
+    function findRoute() {
+        var startPoint = document.getElementById('startPoint').value;
+        var endPoint = document.getElementById('endPoint').value;
+
+        if (!startPoint || !endPoint) {
+                document.getElementById('routeInfo').innerHTML = 'Заполните все поля';
+                return;
+            }
+
+        ymaps.ready(function () {
+            if (myMap) {
+                myMap.destroy(); // Уничтожаем старую карту
+            }
+
+            myMap = new ymaps.Map('map', {
+                center: [55.751574, 37.573856], // Координаты центра карты (Москва)
+                zoom: 10 // Уровень масштабирования
+            });
+
+            ymaps.route([startPoint, endPoint]).then(
+                function (route) {
+                    myMap.geoObjects.add(route); // Добавление маршрута на карту
+                    myMap.setBounds(route.getWayPoints().getBounds(), { checkZoomRange: true }); // Установка границ карты по маршруту
+                    var distance = route.getHumanLength();
+                    var duration = route.getHumanTime();
+                    var distanceInKm = route.getLength() / 1000; // расстояние в метрах делим на 1000 чтобы было км
+                   document.getElementById('routeInfo').innerHTML = 'Расстояние: ' + + distanceInKm.toFixed(1) + 'км' + '<br>Время в пути: ' + duration; //distanceInKm.toFixed(1) округление до 0.1
+                },
+                function (error) {
+                    document.getElementById('routeInfo').innerHTML = 'Введите корректные данные';
+                }
+            );
+        });
+    }
+</script>
+</body>
+</html>

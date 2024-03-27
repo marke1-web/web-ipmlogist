@@ -15,6 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+YANDEX_MAPS_API_KEY = '2a36827c-2c8f-435c-88be-d5ac7507a6ea'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -28,6 +29,7 @@ INSTALLED_APPS = [
     "file_app",
     "django_tables2",
     "django_htmx",
+    'map_calculator',
 ]
 
 MIDDLEWARE = [
